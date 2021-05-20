@@ -1,0 +1,352 @@
+{
+    "openapi":"3.0.0",
+    "info": {
+      "title": "Project",
+      "description": "This is a documentation about project API.",
+      "contact": {
+        "email": "fagner.m.carvalho@gmail.com"
+      },
+      "version": "1.0.1"
+    },
+    "tags":[{
+      "name": "User",
+      "description": "User management",
+      "externalDocs": {
+        "description": "Descubra mais",
+        "url": "https://github.com/Fagner-Carvalho/ignite-desafio-introducao-ao-SOLID"
+      }
+    }],
+    "paths": {
+      "/users": {
+        "post": {
+          "tags":["User"],
+          "summary":"Criar um novo usuário",
+          "description": "A rota deve receber nome e email dentro do corpo da solicitação para poder registrar um  novo usuário.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "name": "Fagner Carvalho",
+                    "email": "fagner_carvalho@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {          
+              "description": "Created",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type":"object",
+                    "properties": {
+                      "admin":{
+                        "type":"boolean",
+                        "enum":[""],
+                        "default": false
+                      },
+                      "id": {
+                        "type":"string"
+                      },
+                      "name":{
+                        "type":"string"
+                      },
+                      "email":{
+                        "type":"string"
+                      },
+                      "created_at":{
+                        "type":"Date"
+                      },
+                      "updated_at":{
+                        "type":"Date"
+                      }
+                    },
+                    "example": {
+                      "admin": false,
+                      "id": "329fg842-d3as-d45h-hg79-9qwe78eg",
+                      "name": "Fagner Carvalho",
+                      "email": "fagner_carvalho@gmail.com",
+                      "created_at": "2021-05-20T14:10:32.992z",
+                      "updated_at": "2021-05-20T14:10:32.992z"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {          
+              "description": "Email Already Exists",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type":"object",
+                    "properties":{
+                      "error": {
+                        "type":"string"
+                      }
+                    },
+                    "example":{
+                      "error": "Email Already Exists!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "get": {
+          "tags":["User"],
+          "summary":"retorna todos os usuários",
+          "description": "Apenas admin pode acessar",
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "responses": {
+            "200": {          
+              "description": "Operação realizada com sucesso",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type":"array",
+                    "items": {
+                      "type":"object",
+                      "properties": {
+                        "admin":{
+                          "type":"boolean",
+                          "enum":[""],
+                          "default": false
+                        },
+                        "id": {
+                          "type":"string"
+                        },
+                        "name":{
+                          "type":"string"
+                        },
+                        "email":{
+                          "type":"string"
+                        },
+                        "created_at":{
+                          "type":"Date"
+                        },
+                        "updated_at":{
+                          "type":"Date"
+                        }                    
+                      },
+                      "example": { 
+                        "admin": false,
+                        "id": "329fg842-d3as-d45h-hg79-9qwe78eg",
+                        "name": "Fagner Carvalho",
+                        "email": "fagner_carvalho@gmail.com",
+                        "created_at": "2021-05-20T14:10:32.992z",
+                        "updated_at": "2021-05-20T14:10:32.992z"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {          
+              "description": "Usuário sem permissão ou usuário não encontrado",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type":"object",
+                    "properties":{
+                      "error": {
+                        "type":"string"
+                      }
+                    },
+                    "example":{
+                      "error": "User not found or User is not admin"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/{user_id}": {
+        "get": {
+          "tags":["User"],
+          "summary": "Retorna um usuário",
+          "description": "Os parâmetros de rota devem receber um `user_id` e retornar as informações do usuário encontradas pelo corpo da resposta..",
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "responses": {
+            "200": {          
+              "description": "Operação realizada com sucesso",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type":"array",
+                    "items": {
+                      "type":"object",
+                      "properties": {
+                        "admin":{
+                          "type":"boolean",
+                          "enum":[""],
+                          "default": false
+                        },
+                        "id": {
+                          "type":"string"
+                        },
+                        "name":{
+                          "type":"string"
+                        },
+                        "email":{
+                          "type":"string"
+                        },
+                        "created_at":{
+                          "type":"Date"
+                        },
+                        "updated_at":{
+                          "type":"Date"
+                        } 
+                      },
+                      "example": {
+                        "admin": false,
+                        "id": "329fg842-d3as-d45h-hg79-9qwe78eg",
+                        "name": "Fagner Carvalho",
+                        "email": "fagner_carvalho@gmail.com",
+                        "created_at": "2021-05-20T14:10:32.992z",
+                        "updated_at": "2021-05-20T14:10:32.992z"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {          
+              "description": "Usuário não encontrado",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type":"object",
+                    "properties":{
+                      "error": {
+                        "type":"string"
+                      }
+                    },
+                    "example":{
+                      "error": "User not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/{user_id}/admin": {
+        "patch": {
+          "tags":["User"],
+          "summary":"Tornar usuário administrador",
+          "description": "O parâmetro de rota deve receber user_id e retornar o objeto de usuário com admin: true",
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "responses": {
+            "200": {          
+              "description": "Operação realizada com sucesso",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type":"array",
+                    "items": {
+                      "type":"object",
+                      "properties": {
+                        "admin":{
+                          "type":"boolean",
+                          "enum":[""],
+                          "default": false
+                        },
+                        "id": {
+                          "type":"string"
+                        },
+                        "name":{
+                          "type":"string"
+                        },
+                        "email":{
+                          "type":"string"
+                        },
+                        "created_at":{
+                          "type":"Date"
+                        },
+                        "updated_at":{
+                          "type":"Date"
+                        }
+                      },
+                      "example": {
+                        "admin": false,
+                        "id": "329fg842-d3as-d45h-hg79-9qwe78eg",
+                        "name": "Fagner Carvalho",
+                        "email": "fagner_carvalho@gmail.com",
+                        "created_at": "2021-05-20T14:10:32.992z",
+                        "updated_at": "2021-05-20T14:10:32.992z"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {          
+              "description": "Usuário não encontrado",
+              "content": {
+                "application/json":{
+                  "schema":{
+                    "type":"object",
+                    "properties":{
+                      "error": {
+                        "type":"string"
+                      }
+                    },
+                    "example":{
+                      "error": "User not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
+  }
